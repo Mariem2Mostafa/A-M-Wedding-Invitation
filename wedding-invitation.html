@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ahmed & Mariam — Wedding Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --kraft: #c4a574;
+    --kraft-dark: #9e784c;
+    --kraft-light: #ddc7a2;
+    --gold: #d4af37;
+    --gold-deep: #a77f1e;
+    --gold-light: #f0d878;
+    --ink: #2c1e12;
+    --paper: #faf6ed;
+    --cream: #fffaf2;
+    --shadow-sm: 0 12px 28px rgba(0,0,0,0.2);
+    --shadow-md: 0 25px 55px rgba(0,0,0,0.35);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #120e07;
+    font-family: 'Lato', sans-serif;
+    overflow-x: hidden;
+    color: var(--ink);
+  }
+
+  /* Ambient glow on body */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(212,175,55,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 80%, rgba(180,120,50,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .invitation-container {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ========== ENVELOPE PHASE ========== */
+  .envelope-phase {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+    transition: opacity 0.9s cubic-bezier(0.2,0.9,0.4,1);
+    padding: 20px 16px 24px;
+    min-height: 0;
+  }
+
+  .envelope-phase.fade-out { opacity: 0; pointer-events: none; }
+  .envelope-phase.hidden-phase { display: none !important; }
+
+  /* Decorative header above envelope */
+  .env-header {
+    text-align: center;
+    margin-bottom: 28px;
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  .env-header-title {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: rgba(212,175,55,0.7);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .env-header-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-style: italic;
+    color: rgba(255,240,190,0.9);
+    font-weight: 300;
+    letter-spacing: 2px;
+  }
+
+  .env-header-names .amp {
+    color: var(--gold);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* The envelope card */
+  .envelope-card {
+    position: relative;
+    width: 92%;
+    max-width: 440px;
+    aspect-ratio: 3 / 4;
+    cursor: pointer;
+    perspective: 1600px;
+    border-radius: 6px;
+    box-shadow: var(--shadow-md), 0 0 0 1px rgba(212,175,55,0.35), 0 0 60px rgba(212,175,55,0.08);
+    background: #b48b5a;
+    animation: envelopeReveal 1.4s cubic-bezier(0.2,0.9,0.4,1) 0.2s both;
+  }
+
+  @keyframes envelopeReveal {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .envelope-card:hover:not(.opened-state) {
+    box-shadow: var(--shadow-md), 0 0 0 1px rgba(212,175,55,0.6), 0 0 80px rgba(212,175,55,0.14);
+    transform: translateY(-2px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .envelope-inner {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    background: #c7a06e;
+    background-image: linear-gradient(145deg, #dbb27c 0%, #b8874c 100%);
+  }
+
+  /* Kraft texture overlay */
+  .envelope-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.012) 3px, rgba(0,0,0,0.012) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(255,255,255,0.015) 5px, rgba(255,255,255,0.015) 6px);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Flaps */
+  .flap {
+    position: absolute;
+    z-index: 5;
+    transition: transform 0.95s cubic-bezier(0.34,1.1,0.55,1), opacity 0.5s ease 0.25s;
+    will-change: transform;
+    background: #c9a36b;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 2px, transparent 2px, transparent 9px),
+      linear-gradient(125deg, #dbb47a, #b27d48);
+  }
+
+  /* Edge shadow lines between flaps */
+  .flap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: brightness(0.88);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .flap-top    { top:0; left:0; right:0; height:50%; clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:50% 100%; border-bottom:1px solid rgba(0,0,0,0.12); }
+  .flap-bottom { bottom:0; left:0; right:0; height:50%; clip-path:polygon(0 100%,100% 100%,50% 0); transform-origin:50% 0%; }
+  .flap-left   { left:0; top:0; bottom:0; width:50%; clip-path:polygon(0 0,0 100%,100% 50%); transform-origin:100% 50%; }
+  .flap-right  { right:0; top:0; bottom:0; width:50%; clip-path:polygon(100% 0,100% 100%,0 50%); transform-origin:0% 50%; }
+
+  .envelope-card.opened-state .flap-top    { transform: rotateX(-190deg); opacity: 0; }
+  .envelope-card.opened-state .flap-bottom { transform: rotateX(190deg); opacity: 0; }
+  .envelope-card.opened-state .flap-left   { transform: rotateY(190deg); opacity: 0; }
+  .envelope-card.opened-state .flap-right  { transform: rotateY(-190deg); opacity: 0; }
+
+  /* Wax seal */
+  .wax-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110px;
+    height: 110px;
+    z-index: 20;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.2), opacity 0.6s ease, filter 0.3s ease;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.55));
+  }
+
+  .wax-seal:hover { filter: drop-shadow(0 8px 22px rgba(212,175,55,0.5)) drop-shadow(0 0 0 rgba(0,0,0,0)); transform: translate(-50%,-50%) scale(1.06); }
+  .wax-seal:active { transform: translate(-50%,-50%) scale(0.95); }
+
+  .envelope-card.opened-state .wax-seal {
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(0.1);
+    pointer-events: none;
+    transition: transform 0.5s ease, opacity 0.4s ease;
+  }
+
+  .seal-svg { width: 100%; height: 100%; }
+
+  /* Sparkle ring around seal */
+  .seal-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 135px;
+    height: 135px;
+    z-index: 19;
+    pointer-events: none;
+    animation: sealPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes sealPulse {
+    0%, 100% { opacity: 0.25; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 0.55; transform: translate(-50%,-50%) scale(1.04); }
+  }
+
+  .envelope-card.opened-state .seal-ring { display: none; }
+
+  .tap-hint {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 3.5px;
+    color: rgba(255,245,210,0.92);
+    text-transform: uppercase;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    z-index: 22;
+    pointer-events: none;
+    background: rgba(0,0,0,0.28);
+    backdrop-filter: blur(4px);
+    padding: 6px 20px;
+    border-radius: 40px;
+    white-space: nowrap;
+    animation: hintPulse 2.5s ease-in-out 2s infinite;
+  }
+
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Date teaser below envelope */
+  .env-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(212,175,55,0.5);
+    text-transform: uppercase;
+    animation: fadeUp 1.6s ease 0.6s both;
+  }
+
+  /* ========== REVEAL SECTION ========== */
+  /* Hidden: no layout height — avoids empty gap under the envelope */
+  .reveal-section {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.8s ease 0.3s, visibility 0s linear 1s;
+    background: var(--paper);
+  }
+
+  .reveal-section.visible {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s ease 0.15s, visibility 0s linear 0s;
+  }
+
+  /* Hero photo area */
+  .hero-photo-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-photo {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 70vh;
+    object-position: center 25%;
+    background: #1a1510;
+  }
+
+  video.hero-photo {
+    pointer-events: none;
+  }
+
+  /* Gradient overlay on photo */
+  .hero-photo-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    background: linear-gradient(to bottom, transparent 0%, var(--paper) 100%);
+  }
+
+  /* Floating names on photo */
+  .photo-names {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    text-align: center;
+    padding-bottom: 40px;
+  }
+
+  .photo-names-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 52px;
+    font-weight: 300;
+    color: #2b1f12;
+    letter-spacing: 2px;
+    line-height: 1.1;
+  }
+
+  .photo-names-text .amp {
+    color: #a07730;
+    font-weight: 400;
+  }
+
+  /* Invitation card — pulled up to meet video gradient (no white gap) */
+  .invitation-card {
+    background: var(--cream);
+    padding: 0 28px 56px;
+    margin-top: -14px;
+    position: relative;
+    z-index: 6;
+  }
+
+  /* Decorative top rule */
+  .card-top-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 10px 0 22px;
+  }
+
+  .card-top-ornament-line {
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c8a855, transparent);
+  }
+
+  .card-top-ornament-icon {
+    font-size: 16px;
+    color: #c8a855;
+    letter-spacing: 6px;
+  }
+
+  .sub-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    letter-spacing: 1.5px;
+    color: #9b7a3a;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .together-line {
+    font-family: 'Cinzel', serif;
+    font-size: 9.5px;
+    letter-spacing: 5px;
+    color: #b8934a;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  /* Bride & Groom names (shown again in invitation card context) */
+  .couple-display {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  .couple-display-names {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2b2118;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .couple-display-names .and-divider {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 28px;
+    color: #c2a15b;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .honor-line {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #5a4a36;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 28px;
+  }
+
+  /* Divider */
+  .ornament {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .ornament-line {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c2a15b, transparent);
+  }
+
+  .ornament-dot {
+    width: 5px;
+    height: 5px;
+    background: #c2a15b;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* Date block — refined save-the-date card */
+  .date-block {
+    --date-gold: #c4a050;
+    --date-gold-soft: rgba(212, 175, 55, 0.22);
+    margin: 0 0 28px;
+    position: relative;
+    border-radius: 22px;
+    padding: 2px;
+    background: linear-gradient(
+      145deg,
+      rgba(212, 175, 55, 0.45) 0%,
+      rgba(255, 248, 230, 0.35) 35%,
+      rgba(180, 140, 70, 0.4) 100%
+    );
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.65) inset,
+      0 28px 56px rgba(44, 30, 18, 0.09),
+      0 8px 24px rgba(60, 45, 25, 0.06);
+  }
+
+  .date-block-surface {
+    position: relative;
+    border-radius: 20px;
+    padding: 26px 22px 22px;
+    text-align: center;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -20%, rgba(255, 250, 235, 0.95) 0%, transparent 55%),
+      linear-gradient(165deg, #fdf9f0 0%, #f6ecda 48%, #efe2cc 100%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  .date-block-surface::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -38deg,
+      transparent,
+      transparent 10px,
+      rgba(212, 175, 55, 0.028) 10px,
+      rgba(212, 175, 55, 0.028) 11px
+    );
+    pointer-events: none;
+  }
+
+  .date-block-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .date-block-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .date-block-eyebrow-line {
+    width: 36px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--date-gold-soft), transparent);
+    opacity: 0.9;
+  }
+
+  .day-name {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: #9a7a3a;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .date-block-month {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: #7c653b;
+    margin: 0 0 2px;
+    line-height: 1.2;
+  }
+
+  .date-block-number-wrap {
+    margin: 2px 0 6px;
+    padding: 4px 0 8px;
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  }
+
+  .full-date {
+    font-family: 'Cinzel', serif;
+    font-size: 76px;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(180deg, #2a2218 0%, #1a1410 55%, #2c241c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 0 rgba(255, 250, 220, 0.35));
+  }
+
+  @supports not (background-clip: text) {
+    .full-date {
+      background: none;
+      color: #1f1812;
+      -webkit-text-fill-color: #1f1812;
+      filter: none;
+    }
+  }
+
+  .month-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-style: italic;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #6b5a40;
+    margin: 0 0 4px;
+    line-height: 1.5;
+  }
+
+  .time-detail {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    font-family: 'Lato', sans-serif;
+    color: #4a3b28;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 11px 22px 11px 18px;
+    border-radius: 100px;
+    position: relative;
+    background: linear-gradient(180deg, rgba(255, 252, 245, 0.95) 0%, rgba(250, 244, 230, 0.88) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow: 0 2px 8px rgba(120, 90, 40, 0.06);
+  }
+
+  .time-detail svg {
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  /* Venue + Attire grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin: 0 0 28px;
+    border: 1px solid #e5d8c0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #e5d8c0;
+  }
+
+  .info-cell {
+    background: #fffdf7;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .info-cell:first-child {
+    border-right: none;
+  }
+
+  .info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+    color: #b8934a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .venue-name {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2a1f13;
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .venue-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: #6a5a44;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* Location — map-shaped panel */
+  .map-location-block {
+    margin: 0 0 28px;
+  }
+
+  .map-location-block .info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+    color: #b8934a;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .map-panel {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 2px solid #e0d0b0;
+    box-shadow:
+      0 4px 0 #c9b896,
+      0 12px 32px rgba(44, 30, 18, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+    background:
+      linear-gradient(180deg, #e8f0dc 0%, #d4e4c8 40%, #c5d9b8 100%);
+    aspect-ratio: 16 / 10;
+    min-height: 200px;
+    max-height: 280px;
+  }
+
+  /* Subtle “map paper” grid + roads */
+  .map-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+      linear-gradient(105deg, transparent 48%, rgba(180, 160, 120, 0.12) 49%, rgba(180, 160, 120, 0.12) 51%, transparent 52%),
+      linear-gradient(-18deg, transparent 58%, rgba(160, 140, 100, 0.08) 59%, rgba(160, 140, 100, 0.08) 61%, transparent 62%);
+    background-size:
+      24px 24px,
+      24px 24px,
+      100% 100%,
+      100% 100%;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+  }
+
+  .map-panel iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    z-index: 2;
+    filter: saturate(0.95) contrast(1.02);
+  }
+
+  /* Decorative pin on map */
+  .map-pin {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -100%);
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+    animation: mapPinFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes mapPinFloat {
+    0%, 100% { transform: translate(-50%, -100%) translateY(0); }
+    50% { transform: translate(-50%, -100%) translateY(-4px); }
+  }
+
+  .map-pin svg {
+    width: 42px;
+    height: 52px;
+    display: block;
+  }
+
+  .map-venue-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 4;
+    padding: 14px 16px 12px;
+    background: linear-gradient(to top, rgba(250, 246, 237, 0.97) 0%, rgba(250, 246, 237, 0.88) 70%, transparent 100%);
+    pointer-events: none;
+    text-align: center;
+  }
+
+  .map-venue-overlay .venue-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2a1f13;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .map-venue-overlay .venue-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    color: #5a4a36;
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  /* Map CTA */
+  .map-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .map-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1.5px solid #d4af5a;
+    padding: 13px 32px;
+    font-family: 'Cinzel', serif;
+    font-size: 10.5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #9b7a3a;
+    cursor: pointer;
+    transition: all 0.28s ease;
+    border-radius: 40px;
+    text-decoration: none;
+  }
+
+  .map-button:hover {
+    background: #d4af5a;
+    color: #2b2118;
+    border-color: #b48b36;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(180,130,50,0.28);
+  }
+
+  /* Footer blessing */
+  .footer-blessing {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  .footer-blessing p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #8b7342;
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+  }
+
+  .footer-stars {
+    margin-top: 20px;
+    font-size: 22px;
+    letter-spacing: 8px;
+    color: #c2a15b;
+  }
+
+  /* Bottom decorative band */
+  .footer-band {
+    height: 6px;
+    background: linear-gradient(90deg, #9e784c, #d4af37, #c8a855, #d4af37, #9e784c);
+    margin-top: 32px;
+  }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    .wax-seal { width: 88px; height: 88px; }
+    .seal-ring { width: 112px; height: 112px; }
+    .date-block-surface { padding: 22px 16px 20px; }
+    .date-block-month { font-size: 17px; }
+    .month-year { font-size: 12px; letter-spacing: 0.2em; }
+    .day-name { letter-spacing: 0.32em; }
+    .full-date { font-size: 58px; }
+    .photo-names-text { font-size: 40px; }
+    .couple-display-names { font-size: 20px; }
+    .invitation-card { padding: 0 18px 48px; margin-top: -10px; }
+    .info-grid { grid-template-columns: 1fr; }
+    .env-header-names { font-size: 26px; }
+    .map-panel { min-height: 180px; max-height: 240px; }
+    .map-pin svg { width: 36px; height: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="invitation-container">
+
+  <!-- ══ ENVELOPE PHASE ══ -->
+  <div class="envelope-phase" id="envelopePhase">
+
+    <div class="env-header">
+      <div class="env-header-names">Ahmed <span class="amp">♥</span> Mariam</div>
+    </div>
+
+    <div class="envelope-card" id="envelopeCard" role="button" tabindex="0" aria-label="Open wedding invitation">
+      <div class="envelope-inner">
+        <div class="flap flap-top"></div>
+        <div class="flap flap-bottom"></div>
+        <div class="flap flap-left"></div>
+        <div class="flap flap-right"></div>
+      </div>
+
+      <!-- Pulsing ring around seal -->
+      <svg class="seal-ring" viewBox="0 0 135 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="67.5" cy="67.5" r="62" stroke="rgba(212,175,55,0.4)" stroke-width="1" stroke-dasharray="4 5"/>
+      </svg>
+
+      <!-- Wax Seal -->
+      <button class="wax-seal" id="waxSealBtn" aria-label="Break seal to open invitation">
+        <svg class="seal-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="waxGrad" cx="32%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#F7EBA0"/>
+              <stop offset="30%" stop-color="#DDB84E"/>
+              <stop offset="68%" stop-color="#B07C2C"/>
+              <stop offset="100%" stop-color="#6E4416"/>
+            </radialGradient>
+            <radialGradient id="innerShine" cx="35%" cy="30%" r="60%">
+              <stop offset="0%" stop-color="rgba(255,250,200,0.45)"/>
+              <stop offset="100%" stop-color="rgba(255,250,200,0)"/>
+            </radialGradient>
+          </defs>
+          <!-- Drip blobs for wax effect -->
+          <ellipse cx="60" cy="62" rx="52" ry="50" fill="url(#waxGrad)"/>
+          <ellipse cx="44" cy="18" rx="7" ry="9" fill="url(#waxGrad)" transform="rotate(-20,44,18)"/>
+          <ellipse cx="78" cy="16" rx="6" ry="8" fill="url(#waxGrad)" transform="rotate(15,78,16)"/>
+          <ellipse cx="18" cy="55" rx="6" ry="7" fill="url(#waxGrad)" transform="rotate(10,18,55)"/>
+          <ellipse cx="103" cy="52" rx="5" ry="7" fill="url(#waxGrad)" transform="rotate(-8,103,52)"/>
+          <ellipse cx="22" cy="82" rx="7" ry="6" fill="url(#waxGrad)" transform="rotate(25,22,82)"/>
+          <ellipse cx="98" cy="85" rx="6" ry="6" fill="url(#waxGrad)" transform="rotate(-15,98,85)"/>
+          <ellipse cx="60" cy="108" rx="7" ry="6" fill="url(#waxGrad)"/>
+          <!-- Shine overlay -->
+          <ellipse cx="60" cy="62" rx="52" ry="50" fill="url(#innerShine)"/>
+          <!-- Dotted inner ring -->
+          <circle cx="60" cy="60" r="42" stroke="rgba(255,235,150,0.45)" stroke-width="1" stroke-dasharray="3 4"/>
+          <!-- Monogram initials A & M -->
+          <text x="38" y="68" font-size="22" fill="rgba(255,248,190,0.92)" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="bold">A</text>
+          <text x="60" y="58" font-size="14" fill="rgba(255,240,160,0.7)" text-anchor="middle" font-family="Georgia, serif">&amp;</text>
+          <text x="82" y="68" font-size="22" fill="rgba(255,248,190,0.92)" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="bold">M</text>
+          <!-- Bottom decorative stars -->
+          <text x="60" y="90" font-size="11" fill="rgba(255,240,160,0.65)" text-anchor="middle">✦ ✦ ✦</text>
+        </svg>
+      </button>
+
+      <div class="tap-hint">✧ TAP THE SEAL ✧</div>
+    </div>
+
+    <div class="env-footer">10 · April · 2026 · Alexandria</div>
+  </div>
+
+  <!-- ══ REVEAL CONTENT ══ -->
+  <div class="reveal-section" id="revealSection">
+
+    <!-- Hero video -->
+    <div class="hero-photo-wrapper">
+      <video class="hero-photo" id="heroVideo" src="video.mp4" playsinline loop preload="auto" autoplay aria-label="Ahmed & Mariam"></video>
+      <div class="photo-names">
+        <div class="photo-names-text">Ahmed <span class="amp">♥</span> Mariam</div>
+      </div>
+    </div>
+
+    <div class="invitation-card">
+
+      <!-- Top ornamental rule -->
+      <div class="card-top-ornament">
+        <div class="card-top-ornament-line"></div>
+        <div class="card-top-ornament-icon">✦ ✦ ✦</div>
+        <div class="card-top-ornament-line"></div>
+      </div>
+
+      <p class="sub-line">With hearts full of love and joy</p>
+      <p class="together-line">we invite you to celebrate our special day</p>
+
+      <div class="couple-display">
+        <div class="couple-display-names">
+          AHMED
+          <span class="and-divider">♥</span>
+          MARIAM
+        </div>
+      </div>
+
+      <div class="ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-dot"></span>
+        <span class="ornament-dot" style="margin: 0 4px;"></span>
+        <span class="ornament-dot"></span>
+        <span class="ornament-line"></span>
+      </div>
+
+      <!-- Date block -->
+      <div class="date-block">
+        <div class="date-block-surface">
+          <div class="date-block-inner">
+            <div class="date-block-eyebrow">
+              <span class="date-block-eyebrow-line" aria-hidden="true"></span>
+              <p class="day-name">Friday</p>
+              <span class="date-block-eyebrow-line" aria-hidden="true"></span>
+            </div>
+            <p class="date-block-month">April</p>
+            <div class="date-block-number-wrap">
+              <p class="full-date">10</p>
+            </div>
+            <p class="month-year">Two Thousand Twenty-Six</p>
+            <div class="time-detail">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              7:30 in the evening — 9:00 PM
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Location — map-shaped preview -->
+      <div class="map-location-block">
+        <div class="info-label">Ceremony &amp; Reception — Location</div>
+        <div class="map-panel" role="img" aria-label="Map preview: Al Mouwasa Garden Hall, Alexandria">
+          <iframe
+            title="Al Mouwasa Garden Hall on the map"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Al+Mouwasa+Garden+Hall+Alexandria+Egypt&amp;output=embed&amp;z=15">
+          </iframe>
+          <div class="map-pin" aria-hidden="true">
+            <svg viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 2C14.06 2 6 10.06 6 20c0 14 18 36 18 36s18-22 18-36C42 10.06 33.94 2 24 2z" fill="#c9a227" stroke="#8b6914" stroke-width="1.2"/>
+              <circle cx="24" cy="20" r="7" fill="#fffaf0" stroke="#a77f1e" stroke-width="1"/>
+              <ellipse cx="24" cy="54" rx="8" ry="3" fill="rgba(0,0,0,0.12)"/>
+            </svg>
+          </div>
+          <div class="map-venue-overlay">
+            <div class="venue-name">Al Mouwasa Garden Hall</div>
+            <div class="venue-address">Al Mouwasa Street · Alexandria, Egypt</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-cta">
+        <a href="https://maps.google.com/?q=Al+Mouwasa+Garden+Hall+Alexandria+Egypt" target="_blank" rel="noopener noreferrer" class="map-button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+          Open in Google Maps
+        </a>
+      </div>
+
+      <div class="ornament">
+        <span class="ornament-line"></span>
+        <span class="ornament-dot"></span>
+        <span class="ornament-line"></span>
+      </div>
+
+      <!-- Footer blessing -->
+      <div class="footer-blessing">
+<p>
+We would be truly honored by your presence<br>
+as we celebrate the beginning of our forever
+</p>
+        <div class="footer-stars">✦ ✦ ✦</div>
+      </div>
+
+    </div>
+    <div class="footer-band"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const heroVideo = document.getElementById('heroVideo');
+
+  /* تكرار مستمر: loop في HTML + إعادة تشغيل فورية لو انتهى بدون تكرار */
+  if (heroVideo) {
+    heroVideo.loop = true;
+    heroVideo.addEventListener('ended', function() {
+      heroVideo.currentTime = 0;
+      heroVideo.play().catch(function() {});
+    });
+  }
+
+  // Envelope open logic
+  const envelopePhase = document.getElementById('envelopePhase');
+  const envelopeCard  = document.getElementById('envelopeCard');
+  const waxSeal       = document.getElementById('waxSealBtn');
+  const revealDiv     = document.getElementById('revealSection');
+  let isOpened = false;
+
+  function playVideoWithSound() {
+    if (!heroVideo) return;
+    heroVideo.muted = false;
+    heroVideo.volume = 1;
+    return heroVideo.play();
+  }
+
+  /* أول ما الموقع يفتح: تشغيل الفيديو بصوت (إن سمح المتصفح) */
+  window.addEventListener('load', function() {
+    document.body.style.overflowX = 'hidden';
+    if (!heroVideo) return;
+    heroVideo.muted = false;
+    heroVideo.volume = 1;
+    heroVideo.play().catch(function() {
+      /* كروم وسفاري غالبًا يمنعوا الصوت بدون تفاعل: تشغيل صامت ثم تفعيل الصوت بأول لمسة/نقرة */
+      heroVideo.muted = true;
+      heroVideo.play().catch(function() {});
+      function unmuteOnGesture() {
+        heroVideo.muted = false;
+        heroVideo.volume = 1;
+        heroVideo.play().catch(function() {});
+        document.removeEventListener('click', unmuteOnGesture);
+        document.removeEventListener('touchstart', unmuteOnGesture);
+      }
+      document.addEventListener('click', unmuteOnGesture, { once: true });
+      document.addEventListener('touchstart', unmuteOnGesture, { once: true, passive: true });
+    });
+  });
+
+  function openInvitation() {
+    if (isOpened) return;
+    isOpened = true;
+    envelopeCard.classList.add('opened-state');
+
+    /* ضغطة الظرف = تفاعل المستخدم: تأكيد تشغيل بصوت */
+    playVideoWithSound();
+
+    setTimeout(() => {
+      envelopePhase.classList.add('fade-out');
+      setTimeout(() => { envelopePhase.style.display = 'none'; }, 800);
+      revealDiv.classList.add('visible');
+      setTimeout(() => { revealDiv.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+      if (heroVideo && heroVideo.paused) playVideoWithSound();
+    }, 950);
+  }
+
+  [envelopeCard, waxSeal].forEach(el => {
+    el.addEventListener('click', e => { e.stopPropagation(); openInvitation(); });
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openInvitation(); } });
+  });
+})();
+</script>
+</body>
+</html>
